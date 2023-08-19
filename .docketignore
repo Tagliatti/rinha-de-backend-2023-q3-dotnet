@@ -1,0 +1,6 @@
+.idea
+.bin
+.obj
+Properties
+appsettings.json
+appsettings.*.json

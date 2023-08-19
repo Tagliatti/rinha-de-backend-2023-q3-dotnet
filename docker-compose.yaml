@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  app:
+    image: mcr.microsoft.com/dotnet/sdk:7.0
+    environment:
+      - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+    ports:
+      - 9999:9999
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: dotnet watch --non-interactive run
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    environment:
+      POSTGRES_USER: rinha-backend
+      POSTGRES_PASSWORD: rinha-backend
+      POSTGRES_DB: rinha-backend
+    volumes:
+      - ./resources/database.sql:/docker-entrypoint-initdb.d/database.sql
